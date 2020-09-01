@@ -22,6 +22,12 @@ class _GamePanelState extends State<GamePanel> {
   int numberLimit = 9;
 
   void playerOnPressed(int pressedIndex) {
+    if (numbers[pressedIndex] == 0) {
+      print('Index $pressedIndex: already dead');
+      chosenIndex = -1;
+      return;
+    }
+
     if (chosenIndex == -1) {
       chosenIndex = pressedIndex;
     } else {
