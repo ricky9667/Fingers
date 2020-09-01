@@ -19,10 +19,7 @@ class GamePanel extends StatefulWidget {
 class _GamePanelState extends State<GamePanel> {
   List<int> numbers = List.filled(4, 1);
   int chosenIndex = -1;
-
-  void changeNumberValue({int index, int value}) {
-    numbers[index] = value;
-  }
+  int numberLimit = 9;
 
   void playerOnPressed(int pressedIndex) {
     if (chosenIndex == -1) {
@@ -30,6 +27,8 @@ class _GamePanelState extends State<GamePanel> {
     } else {
       if (chosenIndex != pressedIndex) {
         numbers[pressedIndex] += numbers[chosenIndex];
+        numbers[pressedIndex] =
+            (numbers[pressedIndex] > numberLimit) ? 0 : numbers[pressedIndex];
       }
       chosenIndex = -1;
     }
@@ -49,16 +48,15 @@ class _GamePanelState extends State<GamePanel> {
                   setState(() => playerOnPressed(0));
                   print('Player 1: right hand clicked');
                 },
-                buttonText: numbers[0].toString(),
-                backgroundColor:
-                    (chosenIndex == 0 ? Colors.blue : Colors.white),
+                buttonText: numbers[0] != 0 ? numbers[0].toString() : "",
+                backgroundColor: chosenIndex == 0 ? Colors.blue : Colors.white,
               ),
               PlayerButton(
                 buttonPressed: () {
                   setState(() => playerOnPressed(1));
                   print('Player 1: left hand clicked');
                 },
-                buttonText: numbers[1].toString(),
+                buttonText: numbers[1] != 0 ? numbers[1].toString() : "",
                 backgroundColor:
                     (chosenIndex == 1 ? Colors.blue : Colors.white),
               ),
@@ -72,7 +70,7 @@ class _GamePanelState extends State<GamePanel> {
                   setState(() => playerOnPressed(2));
                   print('Player 2: left hand clicked');
                 },
-                buttonText: numbers[2].toString(),
+                buttonText: numbers[2] != 0 ? numbers[2].toString() : "",
                 backgroundColor: (chosenIndex == 2 ? Colors.red : Colors.white),
               ),
               PlayerButton(
@@ -80,7 +78,7 @@ class _GamePanelState extends State<GamePanel> {
                   setState(() => playerOnPressed(3));
                   print('Player 2: right hand clicked');
                 },
-                buttonText: numbers[3].toString(),
+                buttonText: numbers[3] != 0 ? numbers[3].toString() : "",
                 backgroundColor: (chosenIndex == 3 ? Colors.red : Colors.white),
               ),
             ],
