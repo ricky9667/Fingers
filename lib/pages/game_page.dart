@@ -19,7 +19,26 @@ class GamePanel extends StatefulWidget {
 class _GamePanelState extends State<GamePanel> {
   List<int> numbers = List.filled(4, 1);
   int chosenIndex = -1;
+  int currentPlayer = 1;
   int numberLimit = 9;
+
+  void switchPlayer() {
+    currentPlayer = (currentPlayer == 1) ? 2 : 1;
+  }
+
+  void addNumberToIndex({int add, int index}) {
+    numbers[index] += add;
+    if (numbers[index] > numberLimit) numbers[index] = 0;
+  }
+
+  bool isCorrectPlayer(int index) {
+    if (currentPlayer == 1) {
+      if (index <= 1) return true;
+    } else {
+      if (index >= 2) return true;
+    }
+    return false;
+  }
 
   void playerOnPressed(int pressedIndex) {
     if (numbers[pressedIndex] == 0) {
@@ -28,15 +47,18 @@ class _GamePanelState extends State<GamePanel> {
       return;
     }
 
+    if (!isCorrectPlayer(pressedIndex) && chosenIndex == -1) {
+      print('You are player $currentPlayer');
+      return;
+    }
+
     if (chosenIndex == -1) {
       chosenIndex = pressedIndex;
     } else {
-      if (chosenIndex != pressedIndex) {
-        numbers[pressedIndex] += numbers[chosenIndex];
-        numbers[pressedIndex] =
-            (numbers[pressedIndex] > numberLimit) ? 0 : numbers[pressedIndex];
-      }
+      if (chosenIndex != pressedIndex)
+        addNumberToIndex(add: numbers[chosenIndex], index: pressedIndex);
       chosenIndex = -1;
+      switchPlayer();
     }
   }
 
