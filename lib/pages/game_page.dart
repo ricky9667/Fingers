@@ -77,10 +77,11 @@ class _GamePanelState extends State<GamePanel> {
     if (chosenIndex == -1) {
       chosenIndex = pressedIndex;
     } else {
-      if (chosenIndex != pressedIndex)
+      if (chosenIndex != pressedIndex) {
         addNumberToIndex(add: numbers[chosenIndex], index: pressedIndex);
+        switchPlayer();
+      }
       chosenIndex = -1;
-      switchPlayer();
     }
     int winner = getWinner();
     if (winner != 0) endGame(winner);
